@@ -17,19 +17,14 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>
-          {"\n"}Welcome!{"\n"}
-          {"\n"}
-          {"\n"}
-          {"\n"}
-        </Text>
+        <Text style={styles.headerText}>Welcome!</Text>
 
         <Pressable style={styles.button} onPress={() => signOut()}>
           <Text style={styles.buttonText}>Sign out</Text>
         </Pressable>
 
-        <Text style={styles.headerText}>
-          {"\n"}Tailwind Hello world!{"\n"}
+        <Text style={tw.style("text-lg", "bg-blue-100")}>
+          Tailwind Hello world!{"\n"}Tailwind Hello world!
         </Text>
       </View>
     </View>
@@ -44,9 +39,9 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   header: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    // display: "flex",
+    // flexDirection: "row",
+    // justifyContent: "space-between",
     padding: 20,
     width: width,
     alignItems: "center",
@@ -54,6 +49,8 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 28,
     fontWeight: "bold",
+    // padding: 20,
+    // margin: 20,
   },
   button: {
     backgroundColor: "#ff9900",

@@ -1,0 +1,27 @@
+{
+  "authSelections": "identityPoolAndUserPool",
+  "resourceName": "localmyexpoapped6d4923",
+  "serviceType": "imported",
+  "region": "us-east-1",
+  "aliasAttributes": [
+    "email"
+  ],
+  "requiredAttributes": [
+    "name",
+    "email",
+    "birthdate",
+    "locale"
+  ],
+  "passwordPolicyMinLength": 8,
+  "passwordPolicyCharacters": [
+    "Requires Lowercase",
+    "Requires Uppercase",
+    "Requires Numbers",
+    "Requires Symbols"
+  ],
+  "mfaConfiguration": "OFF",
+  "autoVerifiedAttributes": [
+    "email"
+  ],
+  "mfaTypes": []
+}

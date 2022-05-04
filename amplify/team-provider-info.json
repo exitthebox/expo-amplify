@@ -13,7 +13,19 @@
     },
     "categories": {
       "auth": {
-        "localmyexpoappcc4348f6": {}
+        "localmyexpoapped6d4923": {
+          "userPoolId": "us-east-1_YXJeGWWTC",
+          "userPoolName": "local-expo-birthday-v1",
+          "webClientId": "15p9erhhcbjun8l13ac0dgdbuo",
+          "nativeClientId": "2c5k17r650vlti5odul7eiehp0",
+          "identityPoolId": "us-east-1:0dbf71d7-9d91-4688-b0ad-ae3445cda9a6",
+          "identityPoolName": "local-expo-birthday-identitypool-v1",
+          "allowUnauthenticatedIdentities": false,
+          "authRoleArn": "arn:aws:iam::427302609665:role/Cognito_localexpobirthdayidentitypoolv1Auth_Role",
+          "authRoleName": "Cognito_localexpobirthdayidentitypoolv1Auth_Role",
+          "unauthRoleArn": "arn:aws:iam::427302609665:role/Cognito_localexpobirthdayidentitypoolv1Unauth_Role",
+          "unauthRoleName": "Cognito_localexpobirthdayidentitypoolv1Unauth_Role"
+        }
       }
     }
   }
