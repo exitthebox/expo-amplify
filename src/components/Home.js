@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Pressable, Dimensions } from "react-native";
 import { Auth } from "aws-amplify";
 import tw from "twrnc";
@@ -6,6 +6,20 @@ import tw from "twrnc";
 const { width } = Dimensions.get("window");
 
 const Home = () => {
+  const [user, setUser] = useState({});
+
+  useEffect(async () => {
+    const { attributes } = await Auth.currentAuthenticatedUser();
+    const meUser = { email: attributes.email };
+    Auth.currentAuthenticatedUser().then((cognitoUser) => {
+      // console.log(cognitoUser.username);
+      meUser.username = cognitoUser.username;
+
+      setUser(meUser);
+      // console.log(user);
+    });
+  }, []);
+
   const signOut = async () => {
     try {
       await Auth.signOut({ global: true });
@@ -17,7 +31,7 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Welcome!</Text>
+        <Text style={styles.headerText}>Welcome! {user.username}</Text>
 
         <Pressable style={styles.button} onPress={() => signOut()}>
           <Text style={styles.buttonText}>Sign out</Text>
