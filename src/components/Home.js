@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, Pressable, Dimensions } from "react-native";
 import { Auth } from "aws-amplify";
+import tw from "twrnc";
+
 const { width } = Dimensions.get("window");
 
 const Home = () => {
@@ -15,10 +17,20 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Welcome!</Text>
+        <Text style={styles.headerText}>
+          {"\n"}Welcome!{"\n"}
+          {"\n"}
+          {"\n"}
+          {"\n"}
+        </Text>
+
         <Pressable style={styles.button} onPress={() => signOut()}>
           <Text style={styles.buttonText}>Sign out</Text>
         </Pressable>
+
+        <Text style={styles.headerText}>
+          {"\n"}Tailwind Hello world!{"\n"}
+        </Text>
       </View>
     </View>
   );
