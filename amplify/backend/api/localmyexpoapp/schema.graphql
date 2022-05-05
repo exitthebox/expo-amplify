@@ -8,6 +8,15 @@ type Todo @model {
   name: String!
   description: String
 }
+
+type AppUser @model {
+  id: ID!
+  username: String!
+  email: String!
+  name: String!
+  birthdate: String!
+  locale: String!
+}
 # type Query {
 #   posts: [Post] @function(name: "GraphQLResolverFunction")
 # }

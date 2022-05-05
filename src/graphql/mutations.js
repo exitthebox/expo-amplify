@@ -43,3 +43,54 @@ export const deleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const createAppUser = /* GraphQL */ `
+  mutation CreateAppUser(
+    $input: CreateAppUserInput!
+    $condition: ModelAppUserConditionInput
+  ) {
+    createAppUser(input: $input, condition: $condition) {
+      id
+      username
+      email
+      name
+      birthdate
+      locale
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateAppUser = /* GraphQL */ `
+  mutation UpdateAppUser(
+    $input: UpdateAppUserInput!
+    $condition: ModelAppUserConditionInput
+  ) {
+    updateAppUser(input: $input, condition: $condition) {
+      id
+      username
+      email
+      name
+      birthdate
+      locale
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteAppUser = /* GraphQL */ `
+  mutation DeleteAppUser(
+    $input: DeleteAppUserInput!
+    $condition: ModelAppUserConditionInput
+  ) {
+    deleteAppUser(input: $input, condition: $condition) {
+      id
+      username
+      email
+      name
+      birthdate
+      locale
+      createdAt
+      updatedAt
+    }
+  }
+`;

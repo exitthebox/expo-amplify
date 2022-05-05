@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Pressable, Dimensions } from "react-native";
-import { Auth } from "aws-amplify";
+import { Auth, API, graphqlOperation } from "aws-amplify";
+import * as mutations from "../graphql/mutations";
+import * as queries from "../graphql/queries";
+
 import tw from "twrnc";
 
 const { width } = Dimensions.get("window");
@@ -10,15 +13,48 @@ const Home = () => {
 
   useEffect(async () => {
     const { attributes } = await Auth.currentAuthenticatedUser();
-    const meUser = { email: attributes.email };
-    Auth.currentAuthenticatedUser().then((cognitoUser) => {
-      // console.log(cognitoUser.username);
-      meUser.username = cognitoUser.username;
 
-      setUser(meUser);
-      // console.log(user);
-    });
+    const meUser = {
+      id: attributes.sub,
+      email: attributes.email,
+      birthdate: attributes.birthdate,
+      name: attributes.name,
+      locale: attributes.locale,
+    };
+    // console.log(attributes);
+
+    Auth.currentAuthenticatedUser()
+      .then(async (cognitoUser) => {
+        meUser.username = cognitoUser.username;
+        console.log("meUser", meUser);
+
+        const isUser = await API.graphql({
+          query: queries.getAppUser,
+          variables: { id: meUser.id },
+        });
+        if (isUser.data.getAppUser !== null) {
+          console.log("AppUser not null");
+        } else {
+          console.log("AppUser null");
+          const newUser = await API.graphql(
+            graphqlOperation(mutations.createAppUser, { input: meUser })
+          );
+          console.log("new user added", meUser.id);
+        }
+        setUser(meUser);
+
+        // const newTodo = await API.graphql({
+        //   query: mutations.createTodo,
+        //   variables: { input: todoDetails },
+        // });
+      })
+      .catch((error) => console.log(error));
   }, []);
+
+  const todoDetails = {
+    name: "Todo 1 test",
+    description: "Learn AWS appsync",
+  };
 
   const signOut = async () => {
     try {

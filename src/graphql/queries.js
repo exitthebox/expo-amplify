@@ -30,3 +30,38 @@ export const listTodos = /* GraphQL */ `
     }
   }
 `;
+export const getAppUser = /* GraphQL */ `
+  query GetAppUser($id: ID!) {
+    getAppUser(id: $id) {
+      id
+      username
+      email
+      name
+      birthdate
+      locale
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listAppUsers = /* GraphQL */ `
+  query ListAppUsers(
+    $filter: ModelAppUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAppUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        username
+        email
+        name
+        birthdate
+        locale
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
