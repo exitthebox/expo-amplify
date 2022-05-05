@@ -16,6 +16,7 @@ type AppUser @model {
   name: String!
   birthdate: String!
   locale: String!
+  expoToken: String!
 }
 # type Query {
 #   posts: [Post] @function(name: "GraphQLResolverFunction")
