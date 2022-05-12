@@ -26,6 +26,16 @@
           "unauthRoleArn": "arn:aws:iam::427302609665:role/Cognito_localexpobirthdayidentitypoolv1Unauth_Role",
           "unauthRoleName": "Cognito_localexpobirthdayidentitypoolv1Unauth_Role"
         }
+      },
+      "function": {
+        "expoPushNotificationV2": {
+          "deploymentBucketName": "amplify-localmyexpoapp-dev-184201-deployment",
+          "s3Key": "amplify-builds/expoPushNotificationV2-477959416f6f6c414179-build.zip"
+        },
+        "expoPushNotificationServerV3": {
+          "deploymentBucketName": "amplify-localmyexpoapp-dev-184201-deployment",
+          "s3Key": "amplify-builds/expoPushNotificationServerV3-306470597166774c5554-build.zip"
+        }
       }
     }
   }

@@ -1,9 +1,12 @@
 import { Amplify, Auth } from "aws-amplify";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import config from "./aws-exports";
+import { NavigationContainer } from "@react-navigation/native";
 import { withAuthenticator, Authenticator } from "aws-amplify-react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import config from "./aws-exports";
 import Home from "./components/Home";
+import VideoChat from "./components/VideoChat";
 
 Amplify.configure({
   ...config,
@@ -12,12 +15,20 @@ Amplify.configure({
   },
 });
 
+const Stack = createNativeStackNavigator();
+
 function App() {
   return (
-    <View style={styles.container}>
-      <Home />
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="VideoChat" component={VideoChat} />
+      </Stack.Navigator>
+      {/* <View style={styles.container}>
+        <Home />
+        <StatusBar style="auto" />
+      </View> */}
+    </NavigationContainer>
   );
 }
 

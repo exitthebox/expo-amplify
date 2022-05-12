@@ -39,6 +39,7 @@ export const getAppUser = /* GraphQL */ `
       name
       birthdate
       locale
+      expoToken
       createdAt
       updatedAt
     }
@@ -58,6 +59,7 @@ export const listAppUsers = /* GraphQL */ `
         name
         birthdate
         locale
+        expoToken
         createdAt
         updatedAt
       }

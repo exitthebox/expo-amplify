@@ -9,16 +9,29 @@ import {
   Dimensions,
   Button,
   Platform,
+  Linking,
 } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import * as mutations from "../graphql/mutations";
 import * as queries from "../graphql/queries";
+import WebRTC from "../contexts/WebRTC";
 
-import tw from "twrnc";
+import tw from "twrnc"; //tailwind for react native
 
 const { width } = Dimensions.get("window");
 
-const Home = () => {
+// Notifications.setNotificationHandler({
+//   handleNotification: async () => ({
+//     shouldShowAlert: true,
+//     shouldPlaySound: false,
+//     shouldSetBadge: false,
+//   })
+// })
+
+const Home = ({ navigation }) => {
   const [user, setUser] = useState({});
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
@@ -26,6 +39,7 @@ const Home = () => {
   const responseListener = useRef();
 
   useEffect(async () => {
+    // console.log(contextType);
     const { attributes } = await Auth.currentAuthenticatedUser();
 
     const meUser = {
@@ -41,7 +55,7 @@ const Home = () => {
       .then((token) => {
         // console.log("token: ", token);
         Object.assign(meUser, { expoToken: token });
-        console.log(meUser);
+        // console.log(meUser);
         setExpoPushToken(token);
       })
       .catch((error) => console.log(error));
@@ -49,20 +63,20 @@ const Home = () => {
     Auth.currentAuthenticatedUser()
       .then(async (cognitoUser) => {
         meUser.username = cognitoUser.username;
-        console.log("meUser", meUser);
+        // console.log("meUser", meUser);
 
         const isUser = await API.graphql({
           query: queries.getAppUser,
           variables: { id: meUser.id },
         });
         if (isUser.data.getAppUser !== null) {
-          console.log("AppUser not null");
+          // console.log("AppUser exists... skipping createAppUser");
         } else {
-          console.log("AppUser null");
+          // console.log("AppUser is new! Calling createAppUser");
           const newUser = await API.graphql(
             graphqlOperation(mutations.createAppUser, { input: meUser })
-          );
-          console.log("new user added", meUser.id);
+          ).catch((error) => console.log(error));
+          // console.log("new user added", meUser.id);
         }
         setUser(meUser);
 
@@ -82,7 +96,11 @@ const Home = () => {
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
+        console.log("tapped response: ", response);
+
+        // load context object
+
+        navigation.navigate("VideoChat", { firstParam: "This came through!" });
       });
 
     return () => {
@@ -106,19 +124,70 @@ const Home = () => {
     }
   };
 
+  function generateRandom(min = 0, max = 1) {
+    // find diff
+    let difference = max - min;
+
+    // generate random number
+    let rand = Math.random();
+
+    // multiply with difference
+    rand = Math.floor(rand * difference);
+
+    // add with min value
+    rand = rand + min;
+    // console.log(rand);
+
+    return rand;
+  }
+
+  // console.log(generateRandom(0, 10));
+
+  const todaysDate = () => {
+    let dateToday = new Date();
+    const dd = String(dateToday.getDate()).padStart(2, "0");
+    const mm = String(dateToday.getMonth() + 1).padStart(2, "0");
+    const yyyy = dateToday.getFullYear();
+    // console.log("dateToday: ", dateToday);
+
+    return (dateToday = `${mm}/${dd}/${yyyy}`);
+  };
+
   const happyBirthdayConnect = async () => {
     // function to choose random user with a birthday
 
     // grab all the users with that birthday
 
-    // put them into a numbered array
+    const users = await API.graphql({
+      query: queries.listAppUsers,
+      variables: {
+        filter: {
+          birthdate: {
+            eq: todaysDate(),
+          },
+        },
+      },
+    });
 
-    // find random number
+    // put them into a numbered array
+    const bdayList = [...users.data.listAppUsers.items];
+
+    bdayList.forEach((bday, i) => {
+      Object.assign(bday, { sortToken: i });
+    });
+
+    // console.log("users array: ", bdayList);
+
+    // find random number in the array using min 0 max is number of records with that birthday
+    generateRandom(0, 10);
 
     // pull the user with that random number
+    const wishRecepient = bdayList[generateRandom(0, bdayList.length - 1)];
 
+    // console.log("wishRecepient", wishRecepient);
     // send a push notification to them to connect
-
+    // may need some sort of queing mechanism if
+    sendPushNotification(wishRecepient.expoToken);
     // connect via video
 
     try {
@@ -130,6 +199,7 @@ const Home = () => {
 
   // Can use this function below, OR use Expo's Push Notification Tool-> https://expo.dev/notifications
   async function sendPushNotification(expoPushToken) {
+    // console.log("sendPushNotification()...", expoPushToken);
     const message = {
       to: expoPushToken,
       sound: "default",
@@ -191,9 +261,9 @@ const Home = () => {
           <Text style={styles.buttonText}>Sign out</Text>
         </Pressable>
 
-        <Text style={tw.style("text-lg", "bg-blue-100")}>
+        {/* <Text style={tw.style("text-lg", "bg-blue-100")}>
           Tailwind Hello world!{"\n"}Tailwind Hello world!
-        </Text>
+        </Text> */}
       </View>
     </View>
   );

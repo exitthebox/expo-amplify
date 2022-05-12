@@ -24,7 +24,32 @@
           "additionalAuthenticationProviders": []
         }
       }
+    },
+    "expoPushNotificationServerV3": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "expoPushNotificationServerV3",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
-  "function": {}
+  "function": {
+    "expoPushNotificationV2": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "expoPushNotificationServerV3": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  }
 }

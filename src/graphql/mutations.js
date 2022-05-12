@@ -55,6 +55,7 @@ export const createAppUser = /* GraphQL */ `
       name
       birthdate
       locale
+      expoToken
       createdAt
       updatedAt
     }
@@ -72,6 +73,7 @@ export const updateAppUser = /* GraphQL */ `
       name
       birthdate
       locale
+      expoToken
       createdAt
       updatedAt
     }
@@ -89,6 +91,7 @@ export const deleteAppUser = /* GraphQL */ `
       name
       birthdate
       locale
+      expoToken
       createdAt
       updatedAt
     }

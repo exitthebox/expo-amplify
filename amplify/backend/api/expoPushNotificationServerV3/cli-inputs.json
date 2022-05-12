@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/pushnotification/{id}": {
+      "name": "/pushnotification/{id}",
+      "lambdaFunction": "expoPushNotificationServerV3",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
